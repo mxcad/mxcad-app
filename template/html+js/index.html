@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles/style.css">
+    <script src="./index.umd.js"></script>
+</head>
+
+<body>
+
+    <button onclick="Mx.MxFun.sendStringToExecute('Mx_drawLine')">画线</button>
+    <script>
+
+        //画线
+        async function Mx_drawLine() {
+            // 获取线段起点
+            let getFristPoint = new MxCAD.MxCADUiPrPoint();
+            getFristPoint.setMessage("请点击确定起始点");
+            let fristPoint = await getFristPoint.go();
+            if (!fristPoint) return
+
+            // 获取线段终点
+            let getSecondPoint = new MxCAD.MxCADUiPrPoint();
+            getSecondPoint.setMessage("请点击确定终点");
+            getSecondPoint.setUserDraw((pt, pw) => {
+                let line = new MxCAD.McDbLine(fristPoint.x, fristPoint.y, fristPoint.z, pt.x, pt.y, pt.z);
+                pw.drawMcDbEntity(line)
+            })
+            let secondPoint = await getSecondPoint.go();
+            if (!secondPoint) return
+
+            // 绘制线段
+            let line = new MxCAD.McDbLine(fristPoint.x, fristPoint.y, fristPoint.z, secondPoint.x, secondPoint.y, secondPoint.z);
+            const mxcad = MxCAD.MxCpp.getCurrentMxCAD();
+            mxcad.drawEntity(line)
+        };
+
+        Mx.MxFun.addCommand("Mx_drawLine", Mx_drawLine)
+        new mxcadApp.MxCADView().create()
+    </script>
+</body>
+
+</html>
