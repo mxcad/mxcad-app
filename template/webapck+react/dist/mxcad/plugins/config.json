@@ -1,1 +1,0 @@
-{"plugins":["test","loginPlugin",{"name":"pluginCodeEdit","isAfterLoad":true,"dir":true, "version":"1.0.0"},{"name":"pluginIdentifyPattern","isAfterLoad":true,"dir":true, "version":"1.0.0"}, {"name":"pluginBaseTemplate","isAfterLoad":false,"dir":true, "version":"1.0.0"}]}
