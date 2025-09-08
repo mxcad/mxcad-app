@@ -63,16 +63,6 @@ export interface ParsedPathResult {
  */
 export declare function resolveSafePath(reqUrl: string, root: string, basePath?: string): ParsedPathResult;
 /**
- * 对指定目录中的配置文件进行“读取 → 转换 → 写入”操作
- * @param dirPath 配置文件所在目录路径
- * @param transforms 包含转换函数的对象
- * @param logger 可选日志记录器
- */
-export declare function processConfigFiles(dirPath: string, transforms: TransformFunctions, logger?: {
-    info?: (msg: string) => void;
-    error?: (msg: string) => void;
-}): Promise<void>;
-/**
  * 处理配置文件请求：读取 → 转换 → 返回响应
  * 用于 Vite/Webpack dev server 中间件
  */
@@ -103,6 +93,11 @@ export declare function getExternals(libraryNames: Required<MxCadAssetsPluginOpt
 export declare function getSourceAssetsPath(): string;
 export declare function checkSourceAssetsExist(): boolean;
 export declare function generateRuntimeConfigScript(publicPath: string): string;
-export declare function copyDir(src: string, dest: string, transforms: TransformFunctions, callback: (err?: Error) => void): void;
+export declare function copyDir(src: string, dest: string, publicDir: string, transforms: TransformFunctions, callback: (err?: Error) => void): void;
 export declare function getContentType(filePath: string): string;
+/**
+ * 创建通用中间件：优先使用 public 资源，回退到 sourceAssetsPath
+ * 对标 createStaticMiddleware 风格
+ */
+export declare function createMxCadAssetsMiddleware(root: string, options: Required<MxCadAssetsPluginOptions>, publicDir: string, logger?: any): (req: any, res: any, next: () => void) => Promise<any>;
 //# sourceMappingURL=index.d.ts.map

@@ -1,6 +1,6 @@
 {
   "name": "mxcad-app",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "browser": "./dist/index.umd.js",
@@ -21,6 +21,9 @@
         "./packToolPlugin/rollup/index.d.ts"
       ]
     }
+  },
+  "scripts": {
+    "postinstall": "node postinstall.js"
   },
   "exports": {
     ".": {
@@ -56,6 +59,7 @@
     "LICENSE_CN",
     "README.md",
     "packToolPlugin",
-    "package.json"
+    "package.json",
+    "postinstall.js"
   ]
 }

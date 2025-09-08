@@ -11,20 +11,18 @@
     {
       "name": "pluginCodeEdit",
       "isAfterLoad": true,
-      "dir": true,
-      "version": "1.0.0"
+      "dir": true
+
     },
     {
       "name": "pluginIdentifyPattern",
       "isAfterLoad": true,
-      "dir": true,
-      "version": "1.0.0"
+      "dir": true
     },
     {
       "name": "pluginBaseTemplate",
       "isAfterLoad": false,
-      "dir": true,
-      "version": "1.0.0"
+      "dir": true
     }
   ]
 }

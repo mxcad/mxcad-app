@@ -215,22 +215,6 @@ declare module '@howdyjs/to-drag' {
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
-        TextDecoration: {
-            /**
-             * Set the font size attribute
-             */
-            setTextDecoration: (textDecoration: string) => ReturnType;
-            /**
-             * Unset the font size attribute
-             */
-            unsetTextDecoration: () => ReturnType;
-        };
-    }
-}
-
-
-declare module '@tiptap/core' {
-    interface Commands<ReturnType> {
         Underline: {
             setUnderline: () => ReturnType;
             unsetUnderline: () => ReturnType;
@@ -259,15 +243,32 @@ declare module '@tiptap/core' {
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
-        fontSize: {
+        Strike: {
             /**
              * Set the font size attribute
              */
-            setFontSize: (size: string) => ReturnType;
+            setStrike: () => ReturnType;
             /**
              * Unset the font size attribute
              */
-            unsetFontSize: () => ReturnType;
+            unsetStrike: () => ReturnType;
+            toggleStrike: () => ReturnType;
+        };
+    }
+}
+
+
+declare module '@tiptap/core' {
+    interface Commands<ReturnType> {
+        TextDecoration: {
+            /**
+             * Set the font size attribute
+             */
+            setTextDecoration: (textDecoration: string) => ReturnType;
+            /**
+             * Unset the font size attribute
+             */
+            unsetTextDecoration: () => ReturnType;
         };
     }
 }
@@ -285,16 +286,15 @@ declare module "@tiptap/core" {
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
-        Strike: {
+        fontSize: {
             /**
              * Set the font size attribute
              */
-            setStrike: () => ReturnType;
+            setFontSize: (size: string) => ReturnType;
             /**
              * Unset the font size attribute
              */
-            unsetStrike: () => ReturnType;
-            toggleStrike: () => ReturnType;
+            unsetFontSize: () => ReturnType;
         };
     }
 }
