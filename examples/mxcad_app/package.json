@@ -1,0 +1,32 @@
+{
+  "name": "mxcadapp",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve --port:8081",
+    "serve_force": "vue-cli-service serve --force --no-cache --port:8081",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "axios": "^1.11.0",
+    "core-js": "^3.6.5",
+    "exceljs": "^4.4.0",
+    "file-saver": "^2.0.5",
+    "mxcad-app": "^1.0.17",
+    "sass": "^1.92.1",
+    "sass-loader": "^16.0.5",
+    "three": "0.113.2",
+    "vue": "^2.6.11",
+    "vue-class-component": "^7.2.3",
+    "vue-property-decorator": "^9.1.2"
+  },
+  "devDependencies": {
+    "@types/mapbox-gl": "^3.4.1",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-typescript": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "typescript": "4",
+    "vue-template-compiler": "^2.6.11"
+  }
+}
