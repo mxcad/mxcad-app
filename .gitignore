@@ -43,4 +43,3 @@ src/languages/translates/*/*.bak.*.json
 **/*.wrapped.*
 src/api.json
 src/translates/*/*.bak.*.json
-examples/MxCADNpmApp
