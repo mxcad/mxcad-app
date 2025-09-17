@@ -1,0 +1,65 @@
+{
+  "name": "mxcad-app",
+  "version": "1.0.18",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "browser": "./dist/index.umd.js",
+  "types": "./dist/index.d.ts",
+  "style": "./dist/styles/style.css",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/index.d.ts"
+      ],
+      "vite": [
+        "./packToolPlugin/vite/index.d.ts"
+      ],
+      "webpack": [
+        "./packToolPlugin/webpack/index.d.ts"
+      ],
+      "rollup": [
+        "./packToolPlugin/rollup/index.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "postinstall": "node postinstall.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "browser": "./dist/index.umd.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./style": {
+      "import": "./dist/styles/style.css",
+      "browser": "./dist/styles/style.css",
+      "require": "./dist/styles/style.css"
+    },
+    "./vite": {
+      "import": "./packToolPlugin/vite/index.mjs",
+      "require": "./packToolPlugin/vite/index.cjs",
+      "types": "./packToolPlugin/vite/index.d.ts"
+    },
+    "./webpack": {
+      "import": "./packToolPlugin/webpack/index.mjs",
+      "require": "./packToolPlugin/webpack/index.cjs",
+      "types": "./packToolPlugin/webpack/index.d.ts"
+    },
+    "./rollup": {
+      "import": "./packToolPlugin/rollup/index.mjs",
+      "require": "./packToolPlugin/rollup/index.cjs",
+      "types": "./packToolPlugin/rollup/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "LICENSE_CN",
+    "README.md",
+    "packToolPlugin",
+    "package.json",
+    "postinstall.js"
+  ]
+}
