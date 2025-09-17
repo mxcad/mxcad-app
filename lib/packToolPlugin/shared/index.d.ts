@@ -10,7 +10,6 @@ export declare const getApiMap: () => {
     axios: string[];
     vue: string[];
     vuetify: string[];
-    "vuetify/components": string[];
     pinia: string[];
 };
 export interface MxPluginConfig {
@@ -44,6 +43,12 @@ export interface MxCadAssetsPluginOptions extends Partial<TransformFunctions> {
     libraryNames?: (keyof typeof externals)[];
     /** 是否单线程加载wasm (默认使用多线程及加载) */
     isWasmSt?: boolean;
+    /**
+    * 是否启用预压缩资源（如 .gz 文件）的拷贝 默认是true
+    * 设置为 false 时，.gz 压缩文件将不会被复制到输出目录
+    * @default true
+    */
+    enableCompressedAssets?: boolean;
 }
 export declare function resolveOptions(options?: MxCadAssetsPluginOptions): Required<MxCadAssetsPluginOptions>;
 export interface ParsedPathResult {
@@ -68,7 +73,7 @@ export declare function resolveSafePath(reqUrl: string, root: string, basePath?:
  */
 export declare function handleConfigRequest(filePath: string, // 已经验证过的安全路径
 fileName: string, // 文件名，如 'mxServerConfig.json'
-transforms: TransformFunctions, res: any, logger?: {
+options: Required<MxCadAssetsPluginOptions>, res: any, logger?: {
     info?: (msg: string) => void;
     error?: (msg: string) => void;
 }): Promise<boolean>;
@@ -93,7 +98,7 @@ export declare function getExternals(libraryNames: Required<MxCadAssetsPluginOpt
 export declare function getSourceAssetsPath(): string;
 export declare function checkSourceAssetsExist(): boolean;
 export declare function generateRuntimeConfigScript(publicPath: string): string;
-export declare function copyDir(src: string, dest: string, publicDir: string, transforms: TransformFunctions, callback: (err?: Error) => void): void;
+export declare function copyDir(src: string, dest: string, publicDir: string, options: Required<MxCadAssetsPluginOptions>, callback: (err?: Error) => void): void;
 export declare function getContentType(filePath: string): string;
 /**
  * 创建通用中间件：优先使用 public 资源，回退到 sourceAssetsPath

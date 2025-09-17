@@ -81,7 +81,6 @@ const autoSidebar: any = AutoSidebar({
 
 export default defineConfig({
     title: 'mxcad-app',
-    base: '/mxcadApp/',
     ignoreDeadLinks: true,
     vite: {
         build: {

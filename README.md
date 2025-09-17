@@ -237,6 +237,18 @@ module.exports = {
 };
 ```
 
+## 🤖 AI Integration
+
+This project includes AI integration through OpenRouter API. To enable this feature:
+
+1. Obtain an API key from [OpenRouter](https://openrouter.ai/)
+2. Add the API key to your environment variables:
+   ```
+   VITE_OPENROUTER_API_KEY=your_openrouter_api_key_here
+   ```
+
+The AI chat component is available in the application and allows you to interact with AI models like DeepSeek.
+
 ## 📚 Quick FAQ
 
 **Q: Which CAD formats are supported?**  

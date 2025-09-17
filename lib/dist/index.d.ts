@@ -2,18 +2,19 @@
 /// <reference path="./mxdraw.d.ts" />
 
 import { App } from 'vue';
-import { DateInstance } from 'vuetify/lib/framework.mjs';
-import { DefaultsInstance } from 'vuetify/lib/framework.mjs';
-import { DisplayInstance } from 'vuetify/lib/framework.mjs';
-import { GoToInstance } from 'vuetify/lib/framework.mjs';
-import { IconAliases } from 'vuetify/lib/framework.mjs';
-import { IconSet } from 'vuetify/lib/framework.mjs';
-import { LocaleInstance } from 'vuetify/lib/framework.mjs';
-import { LocaleMessages } from 'vuetify/lib/framework.mjs';
-import { LocaleOptions } from 'vuetify/lib/framework.mjs';
+import { DateInstance } from 'vuetify';
+import { DefaultsInstance } from 'vuetify';
+import { DisplayInstance } from 'vuetify';
+import { GoToInstance } from 'vuetify';
+import { IconAliases } from 'vuetify';
+import { IconSet } from 'vuetify';
+import { LocaleInstance } from 'vuetify';
+import { LocaleMessages } from 'vuetify';
+import { LocaleOptions } from 'vuetify';
 import { McObject } from 'mxcad';
 import { Ref } from 'vue';
-import { ThemeInstance } from 'vuetify/lib/framework.mjs';
+import { ShallowRef } from 'vue';
+import { ThemeInstance } from 'vuetify';
 
 declare interface AppConfig {
     uiConfig?: string;
@@ -63,7 +64,8 @@ declare class MxCADApp extends MxCADEvents {
     /** 获取mxcad-app使用的vuetify实例 */
     getVuetify(): Promise<{
         install: (app: App) => void;
-        defaults: Ref<DefaultsInstance>;
+        unmount: () => void;
+        defaults: Ref<DefaultsInstance, DefaultsInstance>;
         display: DisplayInstance;
         theme: ThemeInstance & {
             install: (app: App) => void;
@@ -78,6 +80,7 @@ declare class MxCADApp extends MxCADEvents {
             rtl: Ref<Record<string, boolean>>;
             rtlClasses: Ref<string>;
             name: string;
+            decimalSeparator: ShallowRef<string>;
             messages: Ref<LocaleMessages>;
             current: Ref<string>;
             fallback: Ref<string>;
@@ -110,10 +113,10 @@ declare class MxCADApp extends MxCADEvents {
                 startOfYear: (date: unknown) => unknown;
                 endOfYear: (date: unknown) => unknown;
                 isAfter: (date: unknown, comparing: unknown) => boolean;
-                isAfterDay: (value: unknown, comparing: unknown) => boolean;
+                isAfterDay: (date: unknown, comparing: unknown) => boolean;
                 isSameDay: (date: unknown, comparing: unknown) => boolean;
                 isSameMonth: (date: unknown, comparing: unknown) => boolean;
-                isSameYear: (value: unknown, comparing: unknown) => boolean;
+                isSameYear: (date: unknown, comparing: unknown) => boolean;
                 isBefore: (date: unknown, comparing: unknown) => boolean;
                 isEqual: (date: unknown, comparing: unknown) => boolean;
                 isValid: (date: any) => boolean;
@@ -127,7 +130,8 @@ declare class MxCADApp extends MxCADEvents {
                 setYear: (date: unknown, year: number) => unknown;
                 getDiff: (date: unknown, comparing: unknown, unit?: string) => number;
                 getWeekArray: (date: unknown, firstDayOfWeek?: number | string) => unknown[][];
-                getWeekdays: (firstDayOfWeek?: number | string) => string[];
+                getWeekdays: (firstDayOfWeek?: number | string, weekdayFormat?: "long" | "short" | "narrow") => string[];
+                getWeek: (date: unknown, firstDayOfWeek?: number | string, firstWeekMinSize?: number) => number;
                 getMonth: (date: unknown) => number;
                 setMonth: (date: unknown, month: number) => unknown;
                 getDate: (date: unknown) => number;
@@ -215,27 +219,15 @@ declare module '@howdyjs/to-drag' {
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
-        Underline: {
-            setUnderline: () => ReturnType;
-            unsetUnderline: () => ReturnType;
-            toggleUnderline: () => ReturnType;
-        };
-    }
-}
-
-
-declare module '@tiptap/core' {
-    interface Commands<ReturnType> {
-        Overline: {
+        fontSize: {
             /**
              * Set the font size attribute
              */
-            setOverline: () => ReturnType;
+            setFontSize: (size: string) => ReturnType;
             /**
              * Unset the font size attribute
              */
-            unsetOverline: () => ReturnType;
-            toggleOverline: () => ReturnType;
+            unsetFontSize: () => ReturnType;
         };
     }
 }
@@ -258,6 +250,27 @@ declare module '@tiptap/core' {
 }
 
 
+declare module "@tiptap/core" {
+    interface Commands<ReturnType> {
+        selectedText: {
+            setSelectedText: (from: number, to: number) => ReturnType;
+            unsetSelectedText: (from: number, to: number) => ReturnType;
+        };
+    }
+}
+
+
+declare module '@tiptap/core' {
+    interface Commands<ReturnType> {
+        Underline: {
+            setUnderline: () => ReturnType;
+            unsetUnderline: () => ReturnType;
+            toggleUnderline: () => ReturnType;
+        };
+    }
+}
+
+
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         TextDecoration: {
@@ -274,27 +287,18 @@ declare module '@tiptap/core' {
 }
 
 
-declare module "@tiptap/core" {
-    interface Commands<ReturnType> {
-        selectedText: {
-            setSelectedText: (from: number, to: number) => ReturnType;
-            unsetSelectedText: (from: number, to: number) => ReturnType;
-        };
-    }
-}
-
-
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
-        fontSize: {
+        Overline: {
             /**
              * Set the font size attribute
              */
-            setFontSize: (size: string) => ReturnType;
+            setOverline: () => ReturnType;
             /**
              * Unset the font size attribute
              */
-            unsetFontSize: () => ReturnType;
+            unsetOverline: () => ReturnType;
+            toggleOverline: () => ReturnType;
         };
     }
 }
