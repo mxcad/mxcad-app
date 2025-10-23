@@ -12,6 +12,7 @@ import { LocaleInstance } from 'vuetify';
 import { LocaleMessages } from 'vuetify';
 import { LocaleOptions } from 'vuetify';
 import { McObject } from 'mxcad';
+import { MxCADPluginSampleCode } from 'mxcad';
 import { Ref } from 'vue';
 import { ShallowRef } from 'vue';
 import { ThemeInstance } from 'vuetify';
@@ -146,6 +147,8 @@ declare class MxCADApp extends MxCADEvents {
         };
         goTo: GoToInstance;
     }>;
+    /** 初始化代码编辑器的代码示例 */
+    initCodeEditorCodeExamples(codes: MxCADPluginSampleCode[]): void;
 }
 
 export declare let mxcadApp: MxCADApp;
@@ -219,15 +222,26 @@ declare module '@howdyjs/to-drag' {
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
-        fontSize: {
+        Overline: {
             /**
              * Set the font size attribute
              */
-            setFontSize: (size: string) => ReturnType;
+            setOverline: () => ReturnType;
             /**
              * Unset the font size attribute
              */
-            unsetFontSize: () => ReturnType;
+            unsetOverline: () => ReturnType;
+            toggleOverline: () => ReturnType;
+        };
+    }
+}
+
+
+declare module "@tiptap/core" {
+    interface Commands<ReturnType> {
+        selectedText: {
+            setSelectedText: (from: number, to: number) => ReturnType;
+            unsetSelectedText: (from: number, to: number) => ReturnType;
         };
     }
 }
@@ -250,11 +264,12 @@ declare module '@tiptap/core' {
 }
 
 
-declare module "@tiptap/core" {
+declare module '@tiptap/core' {
     interface Commands<ReturnType> {
-        selectedText: {
-            setSelectedText: (from: number, to: number) => ReturnType;
-            unsetSelectedText: (from: number, to: number) => ReturnType;
+        Underline: {
+            setUnderline: () => ReturnType;
+            unsetUnderline: () => ReturnType;
+            toggleUnderline: () => ReturnType;
         };
     }
 }
@@ -262,10 +277,15 @@ declare module "@tiptap/core" {
 
 declare module '@tiptap/core' {
     interface Commands<ReturnType> {
-        Underline: {
-            setUnderline: () => ReturnType;
-            unsetUnderline: () => ReturnType;
-            toggleUnderline: () => ReturnType;
+        fontSize: {
+            /**
+             * Set the font size attribute
+             */
+            setFontSize: (size: string) => ReturnType;
+            /**
+             * Unset the font size attribute
+             */
+            unsetFontSize: () => ReturnType;
         };
     }
 }
@@ -282,23 +302,6 @@ declare module '@tiptap/core' {
              * Unset the font size attribute
              */
             unsetTextDecoration: () => ReturnType;
-        };
-    }
-}
-
-
-declare module '@tiptap/core' {
-    interface Commands<ReturnType> {
-        Overline: {
-            /**
-             * Set the font size attribute
-             */
-            setOverline: () => ReturnType;
-            /**
-             * Unset the font size attribute
-             */
-            unsetOverline: () => ReturnType;
-            toggleOverline: () => ReturnType;
         };
     }
 }

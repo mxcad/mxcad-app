@@ -303,6 +303,10 @@ export interface MxUiConfig {
    */
   defaultActiveLanguage: string;
   /**
+   * 是否显示AI功能按钮
+   */
+  isShowUseAiFunctionButton: boolean;
+  /**
    * 自定义头部右侧按钮右侧
    */
   headerTopBarCustomRightBtns: MxUiConfigHeaderTopBarCustomRightBtnsItem[];
@@ -339,17 +343,37 @@ export interface MxUiConfig {
    */
   mMenuBarData: MxUiConfigMMenuBarDataItem[];
   /**
+   * 右键菜单是否有效
+   */
+  isDisableRightMenu: boolean;
+  /**
+   * 是否使用默认的右键菜单
+   */
+  isDisableDefaultRightMenu: boolean;
+  /**
    * 右键菜单数据
    */
   mRightMenuData: MxUiConfigMRightMenuDataItem[];
+  /**
+   * 是否使用命令运行时右键菜单
+   */
+  isDisableRightMenuCommandRuning: boolean;
   /**
    * 命令运行时右键菜单选项
    */
   mRightMenuDataCommandRuning: MxUiConfigMRightMenuDataCommandRuningItem[];
   /**
+   * 是否使用命令运行时右键菜单选项-按下Shift 触发OSNAP设置
+   */
+  isDisableRightMenuCommandRuningOsnapSet: boolean;
+  /**
    * 命令运行时右键菜单选项-按下Shift 触发OSNAP设置
    */
   mRightMenuDataCommandRuningOsnapSet: MxUiConfigMRightMenuDataCommandRuningOsnapSetItem[];
+  /**
+   * 是否使用选择实体右键菜单
+   */
+  isDisableRightMenuSelectEntity: boolean;
   /**
    * 选择实体右键菜单选项
    */

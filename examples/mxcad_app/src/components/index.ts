@@ -3,16 +3,19 @@ import { mxcadApp, MxCADView } from "mxcad-app";
 // 导入MxCAD核心功能和实体类
 import { MxCpp, McGePoint3d, McDbLine, McCmColor, McObject, MxMap, MxCADPluginBase, MxCADUiPrPoint, MxCADUI, McObjectId, MxPropertiesWindowCustomValueType, McDbAttribute, McDbBlockReference, McDbCustomEntity, McDbEntity, McDbText } from "mxcad";
 // 导入MxDraw核心功能
-import { MxDbRectBoxLeadComment, MxFun } from "mxdraw"
+import { MxDbRectBoxLeadComment, MxDrawObject, MxFun } from "mxdraw"
 import { getMapDefaultData, init as gisinit, MxTest_Map_Download } from "@/gis/init";
 import { init as gis_entity_init } from "@/gis/gis_entity";
 import { init as extools_init } from "@/extools/index";
 import { useModalVisible } from "../components/Modal/hooks";
+import code from '../templateCode'
 
 mxcadApp.initConfig({
     uiConfig: "ini/myUiConfig.json", sketchesUiConfig: "ini/mySketchesAndNotesUiConfig.json",
     serverConfig: "ini/myServerConfig.json", quickCommandConfig: "ini/myQuickCommand.json", themeConfig: "ini/myVuetifyThemeConfig.json"
-})
+});
+
+mxcadApp.initCodeEditorCodeExamples(code)
 
 function decodeParams(params: Record<string, string>): Record<string, any> {
     const decodedParams: Record<string, any> = {};
@@ -69,9 +72,11 @@ export async function Mx_drawLine() {
     const mxcad = MxCpp.getCurrentMxCAD();
     mxcad.drawEntity(line)
 };
-let { map } = getParamsFromUrl()
+let { map,antialias } = getParamsFromUrl()
 
 const isMap = (map === "true") || (map === true)
+
+const isAntialias = (antialias === "true") || (antialias === true)
 
 let mxcadview:MxCADView = isMap ? new MxCADView({openFile:"road.dwg.mxweb",map:true}) : new MxCADView({ openFile: new URL("test2.mxweb", mxcadApp.getStaticAssetPath()).href });
 
@@ -79,6 +84,9 @@ let mxcad: McObject = mxcadview.mxcad;
 
 mxcad.on("init", () => {
     console.log("mx:init");
+
+    //MxFun.setIniset({EnableCommandRightClickMenu:false});
+
     // 注册所有命令
     MxFun.addCommand("Mx_drawLine", Mx_drawLine);
 
@@ -89,10 +97,11 @@ mxcad.on("init", () => {
     MxFun.addCommand("MxTest_Map_Download", MxTest_Map_Download);
 })
 
-mxcad.on("init_before_mxdraw", () => {
+mxcad.on("init_before_mxdraw", (mxdraw: MxDrawObject) => {
     console.log("mx:init_before_mxdraw");
+    // 启用opengl抗锯齿功能,启用该功能，会降代一点显示效率。
+    if(isAntialias) mxdraw.initRendererParam({ antialias: true });
 });
-
 
 mxcad.on("init_mxcad", () => {
     console.log("mx:init_mxcad");

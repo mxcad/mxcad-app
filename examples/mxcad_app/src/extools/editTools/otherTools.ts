@@ -311,6 +311,7 @@ async function Mx_Test_IntersectWith() {
 export function init() {
   MxFun.addCommand("Mx_ReactChangeColor", Mx_ReactChangeColor);
   MxFun.addCommand("Mx_TestGetTable", Mx_GetTable);
+  MxFun.addCommand("Mx_TestEditTable", Mx_EditTable);
   MxFun.addCommand("Mx_Test_FindPolygonEntitys", Mx_Test_FindPolygonEntitys);
   MxFun.addCommand("MxTest_TestAddCurrentSelect", MxTest_TestAddCurrentSelect);
   MxFun.addCommand("MxTest_SelectEntity", MxTest_SelectEntity);

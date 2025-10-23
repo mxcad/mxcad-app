@@ -176,7 +176,9 @@ declare module "mxdraw" {
       MCRX_CMD_NOPRV = 4,
       MCRX_CMD_NO_RECORD_PRVCMD = 8,
       MCRX_CMD_NO_CLEAR_SELECT = 16,
-      MCRX_CMD_NO_CLEAR_SELECT_GRIP_POINT = 32
+      MCRX_CMD_NO_CLEAR_SELECT_GRIP_POINT = 32,
+      MCRX_JIG_CMD_END_NO_CLEAR_SELECT = 64,
+      MCRX_DISABLE_OVERWRITING = 128
   }
   /**
    * 控件对象缺省的绘制顺序
@@ -1218,7 +1220,7 @@ declare module "mxdraw" {
        * ``` typescript
        * ```
        */
-      setloadImageFuction(call: (url: string, onLoad?: (texture: any) => void, onError?: (event: any) => void) => void): void;
+      setloadImageFuction(call: (url: string, onLoad?: (texture: any) => void, onError?: (event: any) => void, fileType?: string, isTifInverse?: boolean) => void): void;
       /**
        * MxFun 模块
        * mxdraw模块初始化同步
@@ -2427,7 +2429,7 @@ declare module "mxdraw" {
        *
        * ```
        */
-      getMxCurrentSelect(): Array<number>;
+      getMxCurrentSelect(whenEmptyReturnPrvSelect?: boolean): Array<number>;
       /**
        * 得到图上当前选择的MxCAD对象.
        * @returns Array<number> 返回对象的id数组.
@@ -2437,7 +2439,7 @@ declare module "mxdraw" {
        *
        * ```
        */
-      getMxCADCurrentSelect(): Array<number>;
+      getMxCADCurrentSelect(whenEmptyReturnPrvSelect?: boolean): Array<number>;
       /**
        * 得到图上当前选择对象时，选择范围点.
        * @example

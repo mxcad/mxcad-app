@@ -558,6 +558,16 @@ export default class Modal extends Vue {
             {{ t("绘制二维码") }}
           </button>
         </div>
+        <div class="btn_box">
+          <button
+            :class="isEn ? 'button button2 btnEn' : 'button button2'"
+            @click="modalOptions.docommand('Mx_Test_Antialias')"
+          >
+            {{ t("反锯齿显示") }}
+          </button>
+     
+        </div>
+
       </div>
     </div>
   </div>

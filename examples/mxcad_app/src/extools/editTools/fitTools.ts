@@ -2310,10 +2310,20 @@ async function Mx_Test_SetCurrentlyDraw() {
     mxcad.showLineWeight(true);
 }
 
+function Mx_Test_Antialias() {
+    var url = window.location.href;
+    if (url.indexOf("?") != -1) {
+        url = url.replace(/(\?|#)[^'"]*/, '');
+    }
+    let open_url = `${url}?antialias=true`
+    window.open(open_url)
+}
+
 export function init() {
     new McDbTestEnlarge().rxInit();
     new MxDbTestDivide().rxInit();
 
+    MxFun.addCommand("Mx_Test_Antialias", Mx_Test_Antialias);
     MxFun.addCommand("Mx_Multicopy", Mx_Multicopy);
     MxFun.addCommand("Mx_ArcToCircle", Mx_ArcToCircle);
     MxFun.addCommand("Mx_CopyRotation", Mx_CopyRotation);

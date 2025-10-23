@@ -19,8 +19,9 @@ import {
     McDbMText,
     McDbRasterImage,
     McDbWipeout,
+    MxCADSelectionSet,
 } from "mxcad";
-import { DynamicInputType, MxDbRect, MxFun } from "mxdraw";
+import { DetailedResult, DynamicInputType, MxDbRect, MxFun } from "mxdraw";
 import { init as insertFrame } from "./InsertFrame"
 import { init as initRoads } from './roads';
 import { deduplicatePoints } from "./fitTools"
@@ -2022,8 +2023,127 @@ async function Mx_Test_Wipeout() {
     let minmaxOrder = MxCpp.getCurrentDatabase().currentSpace.getMinMaxDrawOrder();
     let lOrder = minmaxOrder.maxDrawOrder + 1;
     wipeout.drawOrder = lOrder;
-     
 
+
+}
+
+// 区域覆盖
+async function Mx_Test_AreaOverlay() {
+    const mxcad = MxCpp.getCurrentMxCAD();
+    const points: McGePoint3d[] = [];
+
+    // 绘制遮罩层
+    const drawWipeout = (points: McGePoint3d[]) => {
+        let wipeout = new McDbWipeout();
+        wipeout.setVertices(new McGePoint3dArray(points));
+        wipeout = mxcad.drawEntity(wipeout).getMcDbObject() as McDbWipeout;
+        let minmaxOrder = MxCpp.getCurrentDatabase().currentSpace.getMinMaxDrawOrder();
+        let lOrder = minmaxOrder.maxDrawOrder + 1;
+        wipeout.drawOrder = lOrder;
+    }
+
+    // 选择多段线
+    const selectPlToWipeout = async () => {
+        // 选择多段线
+        let plId: McObjectId = new McObjectId();
+        while (true) {
+            const getPl = new MxCADUiPrEntity();
+            getPl.setMessage("请选择闭合的多段线:");
+            const filter = new MxCADResbuf([DxfCode.kEntityType, "LWPOLYLINE"]);
+            getPl.setFilter(filter);
+            plId = await getPl.go();
+            if (plId.isValid()) break;
+        }
+        const pl = plId.getMcDbEntity() as McDbPolyline;
+        if (!pl.isClosed) {
+            return MxFun.acutPrintf('多段线必须闭合，并且只能由直线段构成')
+        };
+        const getKeys = new MxCADUiPrKeyWord();
+        getKeys.setMessage(`是否要删除多段线？<否>`);
+        getKeys.setKeyWords('[是(Y)/否(N)]');
+        let key = 'N';
+        key = await getKeys.go();
+        for (let i = 0; i < pl.numVerts(); i++) {
+            points.push(pl.getPointAt(i).val);
+        };
+        drawWipeout(points);
+        if (key === 'Y') {
+            pl.erase();
+        };
+        mxcad.updateDisplay();
+    }
+
+    // 指定一点
+    const getPoint = new MxCADUiPrPoint();
+    getPoint.setMessage(" 指定一点:<P>");
+    getPoint.setKeyWords("[边框(F)/多段线(P)]");
+
+    const pt = await getPoint.go();
+    if (pt) points.push(pt)
+    if (getPoint.isKeyWordPicked("P")) {
+        selectPlToWipeout();
+    } else if (getPoint.isKeyWordPicked("F")) {
+        // 设置边框
+        const num = mxcad.getSysVarLong("WIPEOUTFRAME");
+        const ss = new MxCADSelectionSet();
+        ss.allSelect();
+        const McDbWipeoutArr: McDbWipeout[] = [];
+        ss.forEach(id => {
+            const ent = id.getMcDbEntity();
+            if (ent instanceof McDbWipeout) {
+                McDbWipeoutArr.push(ent);
+            }
+        })
+        const getKeys = new MxCADUiPrKeyWord();
+        getKeys.setMessage(`输入模式<${num ? '开' : '关'}>`);
+        getKeys.setKeyWords('[开(ON)/关(OFF)]');
+        let key = num ? 'ON' : 'OFF';
+        key = await getKeys.go();
+        if (key === 'ON') {
+            mxcad.setSysVarLong("WIPEOUTFRAME", 1);
+        } else if (key === 'OFF') {
+            mxcad.setSysVarLong("WIPEOUTFRAME", 0);
+        };
+        McDbWipeoutArr.forEach(wipeout => {
+            const ent = wipeout.clone() as McDbWipeout;
+            mxcad.drawEntity(ent);
+            wipeout.erase();
+        });
+        mxcad.updateDisplay();
+    } else {
+        if (!pt) {
+           selectPlToWipeout();
+        } else {
+            while (true) {
+                const getNextPoint = new MxCADUiPrPoint();
+                getNextPoint.setMessage(" 指定下一点:");
+                if (points.length === 2) getNextPoint.setKeyWords("[放弃(U)]");
+                if (points.length > 2) getNextPoint.setKeyWords("[闭合(C)/放弃(U)]");
+                getNextPoint.setUserDraw((pt, pw) => {
+                    const pl = new McDbPolyline();
+                    pl.isClosed = true;
+                    points.forEach(pt => {
+                        pl.addVertexAt(pt)
+                    });
+                    pl.addVertexAt(pt);
+                    pw.drawMcDbEntity(pl);
+                })
+                const nextPt = await getNextPoint.go();
+                if (nextPt) points.push(nextPt);
+                if (getNextPoint.isKeyWordPicked("U")) {
+                    // 放弃
+                    if (points.length > 2) points.pop()
+                } else if (getNextPoint.isKeyWordPicked("C")) {
+                    // 闭合
+                    break;
+                } else {
+                    if(getNextPoint.getDetailedResult() === DetailedResult.kEcsIn) return;
+                    if(getNextPoint.getDetailedResult() === DetailedResult.kMouseRightIn) break;
+                }
+            };
+            if (points.length > 2) drawWipeout(points);
+        }
+    };
 }
 
 export function init() {
@@ -2062,5 +2182,5 @@ export function init() {
     MxFun.addCommand("Mx_Test_DrawMarkCircle", Mx_Test_DrawMarkCircle);
     MxFun.addCommand("Mx_Test_Wipeout", Mx_Test_Wipeout);
     MxFun.addCommand("Mx_Test_ModifyImage", Mx_Test_ModifyImage);
+    MxFun.addCommand("Mx_Test_AreaOverlay", Mx_Test_AreaOverlay);
 }
-   

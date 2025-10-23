@@ -1,9 +1,8 @@
 {
   "name": "mxcad-app",
-  "version": "1.0.19",
+  "version": "1.0.30",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
-  "browser": "./dist/index.umd.js",
   "types": "./dist/index.d.ts",
   "style": "./dist/styles/style.css",
   "typesVersions": {
@@ -29,7 +28,6 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs",
-      "browser": "./dist/index.umd.js",
       "types": "./dist/index.d.ts"
     },
     "./style": {

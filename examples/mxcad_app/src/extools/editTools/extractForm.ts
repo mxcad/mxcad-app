@@ -809,9 +809,10 @@ function isLocalhost() {
 }
 export async function Mx_EditTable() {
 	// 判断是否是本地环境
-	if (!isLocalhost()) return alert('请在本地环境测试！');
+	if (!isLocalhost()) return alert('请在本地localhost环境下测试！');
+	
 	const tableDataArr = await getAllTableDataArr();
 	if (tableDataArr && tableDataArr.length) {
-		window.open(`http://localhost:5500/dist/spreadJs.html?tableData=${JSON.stringify(tableDataArr)}`);
+		window.open(`http://localhost:5500/public/spreadJs.html?tableData=${JSON.stringify(tableDataArr)}`);
 	}
 }

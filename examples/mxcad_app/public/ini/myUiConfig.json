@@ -21,7 +21,7 @@
       "prompt": "切换UI模式",
       "openPromptDelay": 700
     },
-	{
+    {
       "icon": "class:iconfont AI",
       "cmd": "Mx_showAiFunctionButton",
       "prompt": "Ai",
@@ -102,6 +102,11 @@
       "icon": "class: iconfont  icon_shujuzhongtai",
       "prompt": "数据库展示",
       "cmd": "Mx_DatabaseDisplay"
+    },
+    {
+      "icon": "class: iconfont daimabianji",
+      "prompt": "代码编辑",
+      "cmd": "Mx_CodeEditor"
     }
   ],
   "mLeftButtonBarData": {
@@ -475,16 +480,8 @@
           "cmd": "Mx_WindowZoom",
           "list": [
             {
-              "tab": "上一个(U)",
-              "icon": "a-tubiao_shangyigefuben2",
-              "cmd": "Mx_WindowZoom",
-              "commandOptions": [
-                "P"
-              ]
-            },
-            {
               "tab": "全部(A)",
-              "cmd": "Mx_WindowZoom",
+              "cmd": "Mx_ZoomE",
               "icon": "a-tubiao_quanbufuben2",
               "commandOptions": [
                 "A"
@@ -496,14 +493,6 @@
               "cmd": "Mx_WindowZoom",
               "commandOptions": [
                 "E"
-              ]
-            },
-            {
-              "tab": "对象(O)",
-              "icon": "a-tubiao_duixiangfuben2",
-              "cmd": "Mx_WindowZoom",
-              "commandOptions": [
-                "O"
               ]
             }
           ]

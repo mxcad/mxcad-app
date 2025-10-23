@@ -461,6 +461,12 @@ export default class ModalComponent extends Vue {
             >
               {{ t("绘任意多边形") }}
             </button>
+            <button
+              :class="isEn ? 'button button2 btnEn' : 'button button2'"
+              @click="modalOptions.docommand('Mx_Test_AreaOverlay')"
+            >
+              {{ t("区域覆盖") }}
+            </button>
           </div>
         </div>
         <div style="overflow-y: auto; height: 500px" v-show="btn_id === 'text'">
@@ -941,7 +947,7 @@ export default class ModalComponent extends Vue {
             >
               {{ t("固定视图范围") }}
             </button>
-            <!-- <button :class="isEn ? 'button button2 btnEn' : 'button button2'" @click="modalOptions.docommand('Mx_TestEditTable')">{{ t("在线编辑表格") }}</button> -->
+            <button :class="isEn ? 'button button2 btnEn' : 'button button2'" @click="modalOptions.docommand('Mx_TestEditTable')">{{ t("在线编辑表格") }}</button>
           </div>
         </div>
       </div>

@@ -4,7 +4,13 @@
 
 `mxcad-app` is an online CAD project that users can directly integrate into their applications.
 
-## 🎯 One-Sentence Summary  
+If you want to view more content related to mxcad, You can visit the mxcad official website：https://www.webcadsdk.com/mxcad/
+
+The preview of the mxcad-app integration effect is as follows：
+![image.png](https://mxcad.github.io/mxcad/assets/image-15.BRYal_Nr.jpg)
+
+## 🎯 One-Sentence Summary
+
 **mxcad-app = a ready-to-use online CAD software** — integrating it into your web page is as simple as building with blocks. You can equip your website with professional CAD capabilities in just 3 minutes.
 
 ## 📦 Installation
@@ -121,7 +127,7 @@ mxcadApp.setStaticAssetPath("https://unpkg.com/mxcad-app/dist/mxcadAppAssets");
 `mxcad-app` includes the [`mxcad`](https://www.mxdraw3d.com/mxcad_docs/zh/1.%E5%BC%80%E5%A7%8B/2.%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8.html) core library. You can use `mxcad` directly without installing it separately.
 
 ```js
-import { MxCpp } from 'mxcad'
+import { MxCpp } from "mxcad";
 ```
 
 If not using a module system, `mxcad` is mounted on `window.MxCAD`, allowing direct access to its methods and classes via `MxCAD`.
@@ -129,7 +135,7 @@ If not using a module system, `mxcad` is mounted on `window.MxCAD`, allowing dir
 `mxcad` depends on `mxdraw`, which you can also use directly:
 
 ```js
-import * as Mx from 'mxdraw'
+import * as Mx from "mxdraw";
 ```
 
 If not using modules, `mxdraw` is available on `window.Mx`. You can access its methods and classes directly via `Mx`.
@@ -169,7 +175,7 @@ module.exports = {
   // Other configurations...
   plugins: [
     new MxCadAssetsWebpackPlugin({
-      libraryNames: ["vue"]
+      libraryNames: ["vue"],
     }),
   ],
 };
@@ -179,7 +185,7 @@ After this, you can use the Vue module bundled within `mxcad-app` normally:
 
 ```js
 import { ref } from "vue";
-const n = ref(1)
+const n = ref(1);
 ```
 
 ## 🛠️ Runtime Configuration Modification
@@ -187,6 +193,7 @@ const n = ref(1)
 Modify configurations at build time:
 
 ### Vite
+
 ```js
 import { mxcadAssetsPlugin } from "mxcad-app/vite";
 
@@ -198,7 +205,7 @@ export default {
         config.title = "My CAD"; // Change title
         return config;
       },
-      // Modify server configuration  
+      // Modify server configuration
       transformMxServerConfig: (config) => {
         config.serverUrl = "/api/cad"; // Change API endpoint
         return config;
@@ -214,12 +221,13 @@ export default {
 
       // Modify Vuetify theme configuration
       // transformVuetifyThemeConfig: (config) => config
-    })
-  ]
+    }),
+  ],
 };
 ```
 
 ### Webpack
+
 ```js
 import { MxCadAssetsWebpackPlugin } from "mxcad-app/webpack";
 
@@ -227,15 +235,60 @@ module.exports = {
   plugins: [
     new MxCadAssetsWebpackPlugin({
       transformMxServerConfig: (config) => {
-        if (process.env.NODE_ENV === 'production') {
-          config.serverUrl = 'https://api.prod.com/cad';
+        if (process.env.NODE_ENV === "production") {
+          config.serverUrl = "https://api.prod.com/cad";
         }
         return config;
-      }
-    })
-  ]
+      },
+    }),
+  ],
 };
 ```
+
+## mxcad-app secondary development of CAD-related functions
+
+By following the above steps, we can obtain the original MxCAD project that initially integrates the `mxcad-app` plugin. If we need to carry out secondary development on the original MxCAD project, we can directly extend the functions of the mxcad project through the core dependency libraries of `mxcad` and `mxdraw` in the `mxcad-app`. The following takes the implementation of parametric drawing and the invocation of internal MxCAD commands in a vue project as an example.
+
+Among them, the link to the mxcad development documentation：https://mxcad.github.io/mxcad/en/
+Among them, the link to the mxdraw development documentation：https://mxcad.github.io/mxdraw/en/
+
+1. Parametric drawing extension
+
+   ```ts
+   import { McGePoint3d, MxCpp } from "mxcad";
+
+   //Draw a circle with a center of (0,0) and a radius of 100 in MxCAD
+   const drawCircle = () => {
+     //Obtain the current mxcad object
+     const mxcad = MxCpp.getCurrentMxCAD();
+     //Create a new canvas
+     mxcad.newFile();
+     mxcad.drawCircle(0, 0, 100);
+     mxcad.zoomAll();
+   };
+   //You can directly execute the drawCircle() method to draw the target circle on the drawing
+   drawCircle();
+   ```
+
+2. Directly invoke the internal commands of MxCAD
+
+   ```ts
+   import { MxFun } from "mxdraw";
+   // Invoke the internal line drawing command of MxCAD
+   MxFun.sendStringToExecute("Mx_line");
+   ```
+
+   The registration command operates in the same way as above. First, call the relevant API of mxcad to implement the CAD function method, and then call the internal API of MxFun to register the command.
+
+   ```ts
+   import { MxFun } from "mxdraw"
+
+   const testFun = () => {
+     ....
+   };
+   // Registration command
+   MxFun.addCommand("Mx_testFun", testFun);
+   ```
 
 ## 🤖 AI Integration
 

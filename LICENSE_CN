@@ -1,4 +1,5 @@
-自定义许可证协议 - CAD梦想画图软件[简称：MxCAD]V6.0
+CAD梦想画图软件[简称：MxCAD]V6.0
+自定义许可证协议
 
 版权所有 © 2022 成都梦想凯德科技技术有限公司
 
@@ -35,3 +36,231 @@
 通过使用软件，您确认已阅读并理解本许可证协议，并同意受其条款和条件的约束。
 
 成都梦想凯德科技技术有限公司
+
+
+================================================================================
+第二部分：第三方开源软件声明与许可协议
+================================================================================
+
+本软件集成了以下开源第三方库。这些库受其各自开源许可证的约束，相关权利归属于原作者或组织。我们在此向所有贡献者致以诚挚感谢。
+
+发布日期：2025年9月28日
+适用版本：MxCAD V6.0
+
+--------------------------------------------------------------------------------
+第三方开源组件清单
+--------------------------------------------------------------------------------
+
+| 包名 | 版本 | 开源许可证 | 来源链接 |
+|------|------|------------|----------|
+| @fingerprintjs/fingerprintjs | ^3.4.0 | MIT | https://github.com/fingerprintjs/fingerprintjs |
+| @handsontable/vue3 | ^14.1.0 | MIT | https://github.com/handsontable/handsontable |
+| @he-tree/vue | ^2.8.2 | MIT | https://github.com/lower9/hetree |
+| @howdyjs/mouse-menu | 2.1.3 | MIT | https://github.com/braydenhoward/howdy |
+| @howdyjs/resize | ^2.0.0 | MIT | https://github.com/braydenhoward/howdy |
+| @howdyjs/to-control | ^2.0.5 | MIT | https://github.com/braydenhoward/howdy |
+| @tiptap/extension-color | ^2.2.0 | MIT | https://github.com/ueberdosis/tiptap |
+| @tiptap/extension-font-family | ^2.2.0 | MIT | https://github.com/ueberdosis/tiptap |
+| @tiptap/extension-text-style | ^2.2.0 | MIT | https://github.com/ueberdosis/tiptap |
+| @tiptap/extension-underline | ^2.0.0-beta.220 | MIT | https://github.com/ueberdosis/tiptap |
+| @tiptap/pm | ^2.0.0-beta.220 | MIT | https://github.com/ueberdosis/tiptap |
+| @tiptap/starter-kit | ^2.0.0-beta.220 | MIT | https://github.com/ueberdosis/tiptap |
+| @tiptap/vue-3 | ^2.0.0-beta.220 | MIT | https://github.com/ueberdosis/tiptap |
+| @types/markdown-it | ^14.1.2 | MIT | https://github.com/DefinitelyTyped/DefinitelyTyped |
+| @voerkai18n/runtime | ^3.0.12 | MIT | https://github.com/voerkai18n/voerkai18n |
+| @voerkai18n/vue | ^3.0.12 | MIT | https://github.com/voerkai18n/voerkai18n |
+| @vueuse/core | ^9.12.0 | MIT | https://github.com/vueuse/vueuse |
+| @vueuse/integrations | ^9.12.0 | MIT | https://github.com/vueuse/vueuse |
+| axios | ^1.3.4 | MIT | https://github.com/axios/axios |
+| color | ^4.2.3 | MIT | https://github.com/Qix-/color |
+| event-emitter | ^0.3.5 | MIT | https://github.com/asyncly/EventEmitter |
+| handsontable | ^14.1.0 | MIT | https://github.com/handsontable/handsontable |
+| mapbox-gl | 1.13.3 | BSD-3-Clause | https://github.com/mapbox/mapbox-gl-js |
+| mxcad | ^1.0.339 | Proprietary | https://www.mxdraw.com/ |
+| pinia | ^2.0.32 | MIT | https://github.com/vuejs/pinia |
+| print-js | ^1.6.0 | MIT | https://github.com/crabbly/Print.js |
+| roboto-fontface | * | SIL Open Font License 1.1 | https://fonts.google.com/specimen/Roboto |
+| slate | ^0.112.0 | MIT | https://github.com/ianstormtaylor/slate |
+| slate-history | ^0.110.3 | MIT | https://github.com/ianstormtaylor/slate |
+| three | 0.113.2 | MIT | https://github.com/mrdoob/three.js |
+| vue | ^3.5.6 | MIT | https://github.com/vuejs/core |
+| vue-draggable-plus | ^0.6.0 | MIT | https://github.com/Alfred-Skyblue/vue-draggable-plus |
+| vuetify | ^3.9.7 | MIT | https://github.com/vuetifyjs/vuetify |
+| webfontloader | ^1.0.0 | BSD-3-Clause | https://github.com/typekit/webfontloader |
+| webuploader | ^0.1.8 | MIT | https://github.com/fex-team/webuploader |
+| xlsx | ^0.18.5 | MIT or Apache-2.0 | https://github.com/SheetJS/sheetjs |
+
+--------------------------------------------------------------------------------
+开源许可证全文
+--------------------------------------------------------------------------------
+
+1. MIT License（适用于大多数组件）
+
+Copyright (c) <authors>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+2. BSD-3-Clause License（适用于 mapbox-gl, webfontloader）
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+3. SIL Open Font License 1.1（适用于 roboto-fontface）
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded, 
+redistributed and/or sold with any software provided the other
+requirements of the license are met.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting — in part or in whole — any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software to use, study, copy, merge, embed, modify,
+redistribute, and sell copies of the Font Software, subject to the
+following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the respective
+Copyright Holder. This restriction only applies to the primary font name
+as presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) or the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or not, may not be sublicensed, sold,
+leased, loaned, or given away as a standalone product.
+
+6) The Copyright Holder(s) and the Author(s) of the Font Software
+are not responsible for any problems that may arise from the use of
+the Font Software.
+
+COPYRIGHT
+The Copyright Holder(s) of the Font Software may be found in the
+copyright notices within the font files or documentation.
+
+NO WARRANTY
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+4. Apache License 2.0（可选用于 xlsx）
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+
+--------------------------------------------------------------------------------
+成都梦想凯德科技技术有限公司声明
+--------------------------------------------------------------------------------
+
+本公司郑重声明：
+
+1. 已在本软件发布包中保留所有第三方开源组件的原始版权声明与许可证文本。
+2. 未对任何开源库进行违反其许可证的修改或闭源封装。
+3. 不将第三方开源代码冒充为本公司原创成果。
+4. 所有使用均符合其许可证要求，特别是：
+   - MIT/BSD 类库：已保留版权说明；
+   - 字体库（Roboto）：仅用于界面渲染，未单独销售；
+   - 无 GPL/AGPL/LGPL 等强 copyleft 组件，避免“传染性”风险。
+5. 本软件主程序仍受本公司专有许可证管理，与第三方开源组件相互独立。

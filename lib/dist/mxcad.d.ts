@@ -2710,7 +2710,7 @@ declare module "mxcad" {
   	 console.log(objIds);
      * ```
      */
-  	getCurrentSelect(filter?: MxCADResbuf | null, returnMxCADObject?: boolean, returnMxDrawObject?: boolean): McObjectId[];
+  	getCurrentSelect(filter?: MxCADResbuf | null, returnMxCADObject?: boolean, returnMxDrawObject?: boolean, whenEmptyReturnPrvSelect?: boolean): McObjectId[];
   	/** 用户选择
   	 * @param strPrompt 字符串提示
   	 * @param filter 过滤对象
@@ -2883,28 +2883,7 @@ declare module "mxcad" {
   	 * ```
   	 * */
   	isSelectHighlight: boolean;
-  	/**
-  	 * 选择角点1
-  	 * @example
-  	 * ```ts
-  	   import { MxCADSelectionSet } from "mxcad";
-  
-  	   let ss = new MxCADSelectionSet();
-  	   ss.selectPt1 = new McGePoint3d(20,10,0);
-  	 * ```
-  	 * */
-  	private selectPt1;
-  	/**
-  	 * 选择角点2
-  	 * @example
-  	 * ```ts
-  	   import { MxCADSelectionSet } from "mxcad";
-  
-  	   let ss = new MxCADSelectionSet();
-  	   ss.selectPt1 = new McGePoint3d(0,0,0);
-  	 * ```
-  	 *  */
-  	private selectPt2;
+  	private selectPoints;
   	/**
   	 * 构造函数
   	 * @example
@@ -2931,6 +2910,14 @@ declare module "mxcad" {
   		pt1: McGePoint3d;
   		pt2: McGePoint3d;
   	};
+  	/**
+  	* 返回选择点数组。
+  	* @returns
+  	* @example
+  	* ```ts
+  	* ```
+  	* */
+  	getSelectPoints(): McGePoint3d[];
   	/** 全选
   	 * @param filter 过滤对象
   	 * @example
@@ -3039,6 +3026,12 @@ declare module "mxcad" {
   	 * ```
   	 * */
   	item(lItem: number): McObjectId;
+  	/** 清空选择集
+  	 * @example
+  	 * ```ts
+  	 * ```
+  	 * */
+  	clear(): void;
   	/** 遍历已选中的实体
   	 * @example
   	 * ```ts
@@ -3082,6 +3075,7 @@ declare module "mxcad" {
   	 * ```
   	 *  */
   	userSelect(strPrompt?: string, filter?: MxCADResbuf | null, init?: (getPoint: MrxDbgUiPrPoint) => any): Promise<boolean>;
+  	fenceSelect(strPrompt?: string, filter?: MxCADResbuf | null, init?: (getPoint: MrxDbgUiPrPoint) => any): Promise<boolean>;
   }
   /** MxCADUiPrBase 作为 MxCADUiPr* 系列的基类，提供了一些基础的功能。 */
   export  class MxCADUiPrBase {
@@ -4654,8 +4648,7 @@ declare module "mxcad" {
   	 * ```ts
   	 * import { McGePoint3d, McDbCircle } from "mxcad"
   	 *
-  	 * const center = new McGePoint3d(0,0,0);
-  	 * const circle = new McDbCircle(center, 20);
+  	 * const circle = new McDbCircle(0,0,0, 20);
   	 * const area = circle.getArea();
   	 * console.log("圆面积：", area)
   	 * ```
@@ -5035,8 +5028,7 @@ declare module "mxcad" {
   	 * ```ts
   	 * import { McGePoint3d, McDbCircle } from "mxcad"
   	 *
-  	 * const center = new McGePoint3d(0,0,0);
-  	 * const circle = new McDbCircle(center, 20);
+  	 * const circle = new McDbCircle(0,0,0, 20);
   	 * const vec = circle.getFirstDeriv(new McGePoint3d(20,0,0));//目标点切向量
   	 * if(vec.ret){
   	 *  const val = vec.val;
@@ -5056,8 +5048,7 @@ declare module "mxcad" {
   	 * ```ts
   	 * import { McGePoint3d, McDbCircle, MxCADUiPrPoint, MxCpp } from "mxcad"
   	 *
-  	 * const center = new McGePoint3d(0,0,0);
-  	 * const circle = new McDbCircle(center, 20);
+  	 * const circle = new McDbCircle(0,0,0, 20);
   	 * const mxcad = MxCpp.getCurrentMxCAD();
   	 * mxcad.drawEntity(circle);
   	 *
@@ -6429,6 +6420,14 @@ declare module "mxcad" {
   	 * ```
   	 */
   	setType(type: McDb.PolylineType): boolean;
+  	/**
+  	* 多线段坐标点反向
+  	* @param type 多线段类型
+  	* @example
+  	* ```ts
+  	* ```
+  	*/
+  	reverse(): boolean;
   }
   /**
    * 表示一个 CAD 图块引用实体，一个块参考用于放置、缩放和显示它参考的McDbBlockTableRecord中的一个实体集合的实例
@@ -6881,7 +6880,7 @@ declare module "mxcad" {
   	 * dim.recomputeDimBlock()
   	 * ```
   	 */
-  	recomputeDimBlock(): void;
+  	recomputeDimBlock(forceUpdate?: boolean, onlyCloneDimBlockRecord?: boolean): void;
   	/**
   	 * 获取标注变量整数值
   	 * @param iType 标注变量类型
@@ -7340,6 +7339,136 @@ declare module "mxcad" {
   	compute(dAngleVertexX: number, dAngleVertexY: number, dFirstEndPointX: number, dFirstEndPointY: number, dSecondEndPointX: number, dSecondEndPointY: number, dTextPointX: number, dTextPointY: number): boolean;
   }
   /**
+   * 半径标注尺寸类。
+   * @example
+   * ```ts
+   * ```
+   */
+  export  class McDbRadialDimension extends McDbDimension {
+  	/**
+  	 * 构造函数
+  	 * @param imp 内部实现对象
+  	 * @example
+  	 * ```ts
+  	 * import { McDbRadialDimension } from "mxcad";
+  	 *
+  	 * const radialDim = new McDbRadialDimension()
+  	 * ```
+  	 */
+  	constructor(imp?: any);
+  	/**
+  	 * 获取或设置被标注的圆弧中心点
+  	 * @example
+  	 * ```ts
+  	 * ```
+  	 */
+  	get center(): McGePoint3d;
+  	set center(pt: McGePoint3d);
+  	/**
+  	 * 获取或设置标注在圆弧弧上的位置。
+  	 * @example
+  	 * ```ts
+  	 * ```
+  	 */
+  	get chordPoint(): McGePoint3d;
+  	set chordPoint(pt: McGePoint3d);
+  	/**
+  	 * 标注引线长度
+  	 * @returns 标注引线长度
+  	 */
+  	get leaderLength(): number;
+  	/**
+  	* 设置标注引线长度
+  	* @param val 标注引线长度
+  	*/
+  	set leaderLength(val: number);
+  	/**
+  	* 标注圆弧的开始角
+  	*/
+  	get extArcStartAngle(): number;
+  	/**
+  	* 标注圆弧的开始角
+  	*/
+  	set extArcStartAngle(val: number);
+  	/**
+  	* 标注圆弧的结束角
+  	*/
+  	get extArcEndAngle(): number;
+  	/**
+  	* 标注圆弧的结束角
+  	*/
+  	set extArcEndAngle(val: number);
+  	/**
+  	* 依据被标注的对象，和标注点，计算标注参数。
+  	*/
+  	compute(ent: McDbEntity, pickPoint: McGePoint3d): boolean;
+  }
+  /**
+   * 直径标注尺寸类。
+   * @example
+   * ```ts
+   * ```
+   */
+  export  class McDbDiametricDimension extends McDbDimension {
+  	/**
+  	 * 构造函数
+  	 * @param imp 内部实现对象
+  	 * @example
+  	 * ```ts
+  	 * import { McDbDiametricDimension } from "mxcad";
+  	 *
+  	 * const diametricDim = new McDbDiametricDimension()
+  	 * ```
+  	 */
+  	constructor(imp?: any);
+  	/**
+  	* 标注引线长度
+  	* @returns 标注引线长度
+  	*/
+  	get leaderLength(): number;
+  	/**
+  	* 设置标注引线长度
+  	* @param val 标注引线长度
+  	*/
+  	set leaderLength(val: number);
+  	/**
+  	 * 返回在被标注的曲线上的第二个点，这个点与chordPoint直径相对
+  	 * @example
+  	 * ```ts
+  	 * ```
+  	 */
+  	get farChordPoint(): McGePoint3d;
+  	set farChordPoint(pt: McGePoint3d);
+  	/**
+  	 * 返回在被标注的曲线上的第一个点
+  	 * @example
+  	 * ```ts
+  	 * ```
+  	 */
+  	get chordPoint(): McGePoint3d;
+  	set chordPoint(pt: McGePoint3d);
+  	/**
+  	* 标注圆弧的开始角
+  	*/
+  	get extArcStartAngle(): number;
+  	/**
+  	* 标注圆弧的开始角
+  	*/
+  	set extArcStartAngle(val: number);
+  	/**
+  	* 标注圆弧的结束角
+  	*/
+  	get extArcEndAngle(): number;
+  	/**
+  	* 标注圆弧的结束角
+  	*/
+  	set extArcEndAngle(val: number);
+  	/**
+  	* 依据被标注的对象，和标注点，计算标注参数。
+  	*/
+  	compute(ent: McDbEntity, pickPoint: McGePoint3d): boolean;
+  }
+  /**
    * 表示一个圆弧。
    * @example
    * ```ts
@@ -7758,7 +7887,7 @@ declare module "mxcad" {
    * 表示图案填充类，实现实心颜色填充和各种图案填充效果
    * @example
    * ```ts
-     import { MxCADUiPrPoint, MxCADUtility, McDbHatch, MxCpp, McDb} from "mxcad"
+     import { MxCADUiPrPoint, MxCADUtility, McDbHatch, MxCpp, McDb, McCmColor} from "mxcad"
      //选点填充
   	const getPoint = new MxCADUiPrPoint();
   	console.log("\n指定填充区域内部一点:");
@@ -9625,6 +9754,14 @@ declare module "mxcad" {
   	get isLocked(): boolean;
   	set isLocked(val: boolean);
   	/**
+  	 * 获取或设置图层是可打印。
+  	 * @example
+  	 * ```ts
+  	 * ```
+  	 */
+  	get isPlottable(): boolean;
+  	set isPlottable(val: boolean);
+  	/**
   	 * 获取或设置图层颜色。
   	 * @example
   	 * ```ts
@@ -10070,7 +10207,7 @@ declare module "mxcad" {
   	 * ```ts
   	 * ```
   	 */
-  	saveAs(sFilePath: string): boolean;
+  	saveAs(sFilePath: string, sJsonParam?: string): boolean;
   	/**
   	 * 获取层表
   	 * @example
@@ -11296,6 +11433,97 @@ declare module "mxcad" {
   	/** 替换数据 */
   	EMSCRIPTEN_FETCH_REPLACE = 16
   }
+  /**
+   * McObjectTempDraw是用来需要临时图上绘制一些图形，不需要向图形数据库中增加的对象。
+   */
+  export  class McObjectTempDraw {
+  	private imp;
+  	/**
+  	 * 构造函数
+  	 * @param imp 对象实现
+  	 * @example
+  	 * ```ts
+  	 * ```
+  	 */
+  	constructor(imp: any);
+  	/**
+  	 * 清除所有
+  	 * @example
+  	 * ```ts
+  	 * ```
+  	 */
+  	clearAll(): void;
+  	/**
+  	 * 释放对McDbEntitys的临时绘制上下文。
+  	 * @example
+  	 * ```ts
+  	 * ```
+  	 */
+  	freeMcDbEntitysDisplay(): void;
+  	/**
+  	 * 准备对McDbEntitys的临时绘制上下文。
+  	 * @example
+  	 * ```ts
+  	 * ```
+  	 */
+  	readyMcDbEntitysWorldDraw(): void;
+  	/**
+  	* 清除McDbEntitys临时绘制的数据
+  	* @example
+  	* ```ts
+  	* ```
+  	*/
+  	clearMcDbEntitysDisplay(): void;
+  	/**
+  	* 生成McDbEntitys临时绘制的数据
+  	* @example
+  	* ```ts
+  	* ```
+  	*/
+  	worldDrawMcDbEntitys(ent: McDbEntity): boolean;
+  	/**
+  	 * 禁用McDbEntitys临时绘制的OpenGL的DepthTest
+  	 * @example
+  	 * ```ts
+  	 * ```
+  	 */
+  	disableDepthTestMcDbEntitysDisplay(isDisable?: boolean): void;
+  	/**
+  	 * 添加临时绘制线条数据
+  	 * @example
+  	 * ```ts
+  	 * ```
+  	 */
+  	addLines(vecLinePoints: McGePoint3dArray): void;
+  	/**
+  	 * 添加临时绘制填充三角形数据
+  	 * @example
+  	 * ```ts
+  	 * ```
+  	 */
+  	addTriangles(vecTrianglesPoints: McGePoint3dArray): void;
+  	/**
+  	 * 清除临时绘制数据
+  	 * @example
+  	 * ```ts
+  	 * ```
+  	*/
+  	clear(): void;
+  	/**
+  	 * 设置显示顺序
+  	 * @example
+  	 * ```ts
+  	 * ```
+  	*/
+  	setDrawOrder(iDrawOrder: number, iMcDbEntityDrawOrder: number): void;
+  	/**
+  	* 设置Draw颜色
+  	* @example
+  	* ```ts
+  	* ```
+     */
+  	setDrawColor(color: number): void;
+  }
    class McRxObjectImp {
   }
   /**
@@ -11330,6 +11558,13 @@ declare module "mxcad" {
   	* ```
   	*/
   	protected creaeCallId(): number;
+  	/**
+  	 * 得到临时绘制模块
+  	 * @example
+  	 * ```ts
+  	 * ```
+  	*/
+  	getTempDraw(): McObjectTempDraw;
   	/**
   	 * 设置对象的一些属性设置
   	 * @param val 属性设置内容.
@@ -12242,7 +12477,7 @@ declare module "mxcad" {
   	 });
   	 * ```
   	 */
-  	loadImage(imageUrl: string, call: (image: any) => void, imageFileName?: string): void;
+  	loadImage(imageUrl: string, call: (image: any) => void, imageFileName?: string, fileType?: string): void;
   	/**
   	 * 绘制一个图片
   	 * @param dPosX 图片 X 坐标
@@ -12252,7 +12487,7 @@ declare module "mxcad" {
   	 * @param dAng 图片角度,单位是度
   	 * @param imageUrl 图片路径
   	 */
-  	drawImage(dPosX: number, dPosY: number, dWidth: number, dHeight: number, dAng: number, imageUrl: string, isConvertBase64?: boolean, dwgImageSizeWidth?: number, dwgImageSizeHeight?: number): McObjectId;
+  	drawImage(dPosX: number, dPosY: number, dWidth: number, dHeight: number, dAng: number, imageName: string, isConvertBase64?: boolean, dwgImageSizeWidth?: number, dwgImageSizeHeight?: number, imageUrl?: string): McObjectId;
   	/**
   	 * 添加一个图片定义到cad数据库中 。
   	 * @param imageUrl 图片路径
@@ -12272,7 +12507,7 @@ declare module "mxcad" {
   		});
   	 * ```
   	 */
-  	addImageDefine(imageUrl: string, sName?: string, isConvertBase64?: boolean): McObjectId;
+  	addImageDefine(imageUrl: string, sName?: string, isConvertBase64?: boolean, sourceFileName?: string): McObjectId;
   	/**
   	 * 显示线重
   	*/
@@ -13483,13 +13718,22 @@ declare module "mxcad" {
   	constructor();
   	private getTypeString;
   	/**
-  	* 把当前控件显示的内容和database的图纸进行比较
+  	* 把当前控件显示的内容和base_database的图纸进行比较,base_database可认为是原始图纸，当前控件上新绘制的对象就是新增对象。
   	*/
-  	do(database: McDbDatabase): boolean;
+  	do(base_database: McDbDatabase): boolean;
   	/**
   	* 得到图纸比较结果
+  	* 返回结果[{"id":被修改对象的id,"id_current":当前图纸该对象id,"id_base":原始图纸，该对象id,"pos":修改位置,"type":修改方式,"str":修改说明},...]
   	*/
   	getResult(): any[];
+  	/**
+  	* 通过当前的比较结果，重新生成显示。用不同颜色标注修改地方。
+  	* 把修改的对象，用粉色显示
+  	* 增加的对象，用绿色显示
+  	* 删除的对象，用红色显示
+  	* strColor:  '{"add_color":0xFF0000,"erase_color":0x00FF00,"modify_color":0x0000FF,"not_modify_color":0x505050}'
+  	*/
+  	regenDisplay(strColor?: string): boolean;
   }
   /**
    * MxModifyColor 批量修改图上对象颜色
@@ -14014,6 +14258,8 @@ declare module "mxcad" {
   	widthFactor?: number;
   	/** 文本位置: 'superscript' - 上标, 'subscript' - 下标，undefined - 正常 */
   	textPosition?: "superscript" | "subscript";
+  	/** 垂直对齐方式: 'top' - 顶部对齐, 'bottom' - 底部对齐, 'middle' - 中间对齐 */
+  	verticalAlign?: "top" | "bottom" | "middle";
   }
   export type CustomText = MarksStyleText;
   export interface BaseElement {
@@ -14430,12 +14676,17 @@ declare module "mxcad" {
   	borderLineType?: string;
   }
   export  class McDbXlsxTable extends McDbCustomEntity {
+  	matrix: McGeMatrix3d;
   	private _rowHeight;
   	/**
   	 * 表格整体行高
   	 * */
   	get rowHeight(): number;
   	set rowHeight(val: number);
+  	/**  表格行数*/
+  	get rowCount(): number;
+  	/**  表格列数*/
+  	get colCount(): number;
   	private _colWidth;
   	/**
   	 * 表格整体列宽
@@ -14459,7 +14710,6 @@ declare module "mxcad" {
   	private _selectedCells;
   	private _cellTextDimensions;
   	private _cellStyles;
-  	private _mat;
   	constructor(imp?: any);
   	create(imp: any): McDbXlsxTable;
   	getTypeName(): string;
@@ -14467,6 +14717,11 @@ declare module "mxcad" {
   	getCellStyles(): CellStyleInfo;
   	private getTableData;
   	private getDefaultStyle;
+  	getBoundingBox(): {
+  		minPt: McGePoint3d;
+  		maxPt: McGePoint3d;
+  		ret: boolean;
+  	};
   	/**
   	 * 处理合并单元格数据，填充空值
   	 * 根据合并单元格信息，将合并区域内的空单元格填充为合并区域左上角的值
@@ -14617,6 +14872,13 @@ declare module "mxcad" {
   	 */
   	getCellTextValue(row: number, col: number): string;
   	/**
+  	 * 获取指定单元格（考虑合并）在世界坐标系下的四个角点
+  	 * @param row 行索引 (0-based)
+  	 * @param col 列索引 (0-based)
+  	 * @returns McGePoint3d[] 顺序： [左上, 右上, 右下, 左下]
+  	 */
+  	getCellWorldCorners(row: number, col: number): McGePoint3d[] | null;
+  	/**
   	 * 获取指定单元格的几何范围
   	 * @param row 行索引 (0-based)
   	 * @param col 列索引 (0-based)
@@ -14625,6 +14887,15 @@ declare module "mxcad" {
   	getCellGeometry(row: number, col: number): {
   		min: McGePoint3d;
   		max: McGePoint3d;
+  	} | null;
+  	/**
+     * 将CAD坐标点转换为表格中的单元格位置
+     * @param point CAD空间中的三维点
+     * @returns 单元格位置 {row, col} 或 null (当点不在表格内时)
+     */
+  	getCellAtPoint(point: McGePoint3d): {
+  		row: number;
+  		col: number;
   	} | null;
   	/**
   	 * 获取指定单元格的A1格式引用
@@ -14772,15 +15043,6 @@ declare module "mxcad" {
   		row: number;
   		col: number;
   	})[], verticalAlignment: "top" | "middle" | "bottom"): void;
-  	/**
-  	 * 将CAD坐标点转换为表格中的单元格位置
-  	 * @param point CAD空间中的三维点
-  	 * @returns 单元格位置 {row, col} 或 null (当点不在表格内时)
-  	 */
-  	getCellAtPoint(point: McGePoint3d): {
-  		row: number;
-  		col: number;
-  	} | null;
   	getGripPoints(): McGePoint3dArray;
   	moveGripPointsAt(iIndex: number, dXOffset: number, dYOffset: number, dZOffset: number): void;
   	transformBy(_mat: McGeMatrix3d): boolean;
@@ -15664,6 +15926,7 @@ declare module "mxcad" {
   export  class MxTIFFLoader {
   	private imp;
   	load(url: string, onLoad?: (texture: any) => void, onError?: (event: any) => void): void;
+  	setInverse(val: boolean): void;
   }
   
   export {};
