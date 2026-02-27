@@ -3,6 +3,7 @@
 
 # 但允许以下文件和目录（白名单）
 !docs/
+!docs/**
 !lib/
 !examples/
 !README.md
