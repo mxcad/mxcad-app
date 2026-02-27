@@ -7,7 +7,7 @@
 If you want to view more content related to mxcad, You can visit the mxcad official website：https://www.webcadsdk.com/mxcad/
 
 The preview of the mxcad-app integration effect is as follows：
-![image.png](https://mxcad.github.io/mxcad/assets/image-15.BRYal_Nr.jpg)
+![image.png](./docs/assets/mxcad-app示例-en.png)
 
 ## 🎯 One-Sentence Summary
 

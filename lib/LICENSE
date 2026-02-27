@@ -33,6 +33,12 @@ This license agreement ("Agreement") is made by and between Chengdu Dream Cloud 
 
 11. **Intellectual Property Statement**: The Software and all related intellectual property rights (including but not limited to patents, copyrights, trademarks, and trade secrets) are owned by Chengdu Dream Cloud Technology Co., Ltd. Without the written consent of the Licensor, the User may not infringe or attempt to infringe these rights in any manner.
 
+<<<<<<< HEAD
+=======
+This software (CAD Dream Drawing Software [MXCAD] V6.0) contains several third-party open source components that are subject to their respective licenses, and their copyrights belong to the original authors or relevant rights holders. For a complete list, corresponding versions, license types, and original copyright notices of these third-party components, please refer to the 'THIRD-PARTY-NOTICES.txt' file distributed with this software.
+You must comply with the original license terms of each third-party component. This license (i.e. MxCAD Custom License Agreement) does not apply to the aforementioned third-party components, and their usage rights are fully governed by their respective open source licenses.
+
+>>>>>>> 12cf139 (更新readMe)
 By using the Software, you acknowledge that you have read and understood this License Agreement and agree to be bound by its terms and conditions.
 
 Chengdu Dream Cloud Technology Co., Ltd.

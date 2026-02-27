@@ -7,7 +7,7 @@
 如果想要查看更多mxcad相关内容，可前往mxcad官网：https://www.webcadsdk.com/mxcad/
 
 mxcad-app 集成效果预览如下：
-![image.png](https://mxcad.github.io/mxcad/assets/image-15.BRYal_Nr.jpg)
+![image.png](./docs/assets/mxcad-app示例-zh.png)
 
 ## 🎯 一句话理解
 
